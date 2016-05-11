@@ -337,6 +337,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } else {
             Log.i(TAG, "metering areas not supported");
         }
+        final String currentFocusMode = params.getFocusMode();
         params.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
         camera.setParameters(params);
 
@@ -344,7 +345,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             @Override
             public void onAutoFocus(boolean success, Camera camera) {
                 Camera.Parameters params = camera.getParameters();
-                params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                params.setFocusMode(currentFocusMode);
                 camera.setParameters(params);
             }
         });
