@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="preview_size"
+        android:title="相机预览分辨率" />
+    <ListPreference
+        android:key="picture_size"
+        android:title="照片分辨率" />
+    <ListPreference
+        android:key="video_size"
+        android:title="视频分辨率" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_data"
+        android:title="地理位置" />
+    <ListPreference
+        android:defaultValue="auto"
+        android:key="flash_mode"
+        android:title="闪光灯" />
+    <ListPreference
+        android:key="focus_mode"
+        android:title="对焦模式" />
+    <ListPreference
+        android:defaultValue="auto"
+        android:key="white_balance"
+        android:title="白平衡" />
+    <ListPreference
+        android:defaultValue="auto"
+        android:key="scene_mode"
+        android:title="场景" />
+    <ListPreference
+        android:defaultValue="0"
+        android:key="exposure_compensation"
+        android:title="曝光补偿" />
+    <ListPreference
+        android:defaultValue="100"
+        android:entries="@array/pref_jpegQuality"
+        android:entryValues="@array/pref_jpegQuality"
+        android:key="jpeg_quality"
+        android:title="照片品质" />
+</PreferenceScreen>
