@@ -315,14 +315,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-    private static void handleFocusMetering(MotionEvent event, Camera camera) {
-        Camera.Parameters params = camera.getParameters();
-        Camera.Size previewSize = params.getPreviewSize();
-        Rect focusRect = calculateTapArea(event.getX(), event.getY(), 1f, previewSize);
-        Rect meteringRect = calculateTapArea(event.getX(), event.getY(), 1.5f, previewSize);
+    private void handleFocusMetering(MotionEvent event, Camera camera) {
+        int viewWidth = getWidth();
+        int viewHeight = getHeight();
+        Rect focusRect = calculateTapArea(event.getX(), event.getY(), 1f, viewWidth, viewHeight);
+        Rect meteringRect = calculateTapArea(event.getX(), event.getY(), 1.5f, viewWidth, viewHeight);
 
         camera.cancelAutoFocus();
-
+        Camera.Parameters params = camera.getParameters();
         if (params.getMaxNumFocusAreas() > 0) {
             List<Camera.Area> focusAreas = new ArrayList<>();
             focusAreas.add(new Camera.Area(focusRect, 800));
@@ -357,17 +357,17 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         return (float) Math.sqrt(x * x + y * y);
     }
 
-    private static Rect calculateTapArea(float x, float y, float coefficient, Camera.Size previewSize) {
+    private static Rect calculateTapArea(float x, float y, float coefficient, int width, int height) {
         float focusAreaSize = 300;
         int areaSize = Float.valueOf(focusAreaSize * coefficient).intValue();
-        int centerX = (int) (x / previewSize.width - 1000);
-        int centerY = (int) (y / previewSize.height - 1000);
+        int centerX = (int) (x / width * 2000 - 1000);
+        int centerY = (int) (y / height * 2000 - 1000);
 
-        int left = clamp(centerX - areaSize / 2, -1000, 1000);
-        int top = clamp(centerY - areaSize / 2, -1000, 1000);
-
-        RectF rectF = new RectF(left, top, left + areaSize, top + areaSize);
-
+        int halfAreaSize = areaSize / 2;
+        RectF rectF = new RectF(clamp(centerX - halfAreaSize, -1000, 1000)
+                , clamp(centerY - halfAreaSize, -1000, 1000)
+                , clamp(centerX + halfAreaSize, -1000, 1000)
+                , clamp(centerY + halfAreaSize, -1000, 1000));
         return new Rect(Math.round(rectF.left), Math.round(rectF.top), Math.round(rectF.right), Math.round(rectF.bottom));
     }
 
